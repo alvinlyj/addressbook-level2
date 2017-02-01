@@ -9,6 +9,8 @@ import seedu.addressbook.parser.Parser;
 import seedu.addressbook.storage.StorageFile;
 import seedu.addressbook.ui.TextUi;
 
+import java.io.*;
+import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -85,8 +87,11 @@ public class Main {
             CommandResult result = executeCommand(command);
             recordResult(result);
             ui.showResultToUser(result);
-
-        } while (!ExitCommand.isExit(command));
+            try {
+            	isFileExists();
+            } catch (FileNotFoundException e) {System.out.println("File was deleted and does not exist.");
+            }
+    	} while (!ExitCommand.isExit(command));
     }
 
     /** Updates the {@link #lastShownList} if the result contains a list of Persons. */
@@ -124,6 +129,11 @@ public class Main {
         boolean isStorageFileSpecifiedByUser = launchArgs.length > 0;
         return isStorageFileSpecifiedByUser ? new StorageFile(launchArgs[0]) : new StorageFile();
     }
-
+    
+    private void isFileExists() throws FileNotFoundException {
+    	if (!storage.checkFileExists()) {
+    		throw new FileNotFoundException();
+    	}
+    }
 
 }
