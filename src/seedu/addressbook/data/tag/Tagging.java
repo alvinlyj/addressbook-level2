@@ -6,7 +6,7 @@ public class Tagging {
 	
 	public Tagging(String name, String tag, String action) {
 		String actionSign = "";
-		if (action == "Add") {
+		if (action.equals("Add")) {
 			actionSign = "+";
 		} else {
 			actionSign = "-";
